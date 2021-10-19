@@ -4,7 +4,7 @@ let preciosParcelas = [];
 let filtroPrecio = document.getElementById("filtroPrecio").addEventListener("click", ordenarPrecio)
 
 function ordenarPrecio () { 
-  container.innerHTML = ""
+  container.innerHTML = "";
   let ordenadosPrecios = parcelas.map(element => element);
   console.log("ordenados menor a mayor precio")
   console.log(ordenadosPrecios.sort((a, b ) => a.$contado - b.$contado))
@@ -20,7 +20,7 @@ let manzanasParcelas = [];
 let filtroManzana = document.getElementById("filtroManzana").addEventListener("click", ordenarManzana)
 
 function ordenarManzana () {   
-  container.innerHTML = ""
+  container.innerHTML = "";
   let ordenadosManzana = parcelas.map(element => element);
   console.log("ordenados menor a mayor n° manzana")
   console.log(ordenadosManzana.sort((a, b) => a.manzana - b.manzana))
@@ -36,7 +36,7 @@ let barriosParcelas = [];
 let filtroBarrio = document.getElementById("filtroBarrio").addEventListener("click", ordenarBarrio)
 
 function ordenarBarrio( ) {   
-  container.innerHTML = ""
+  container.innerHTML = "";
   let ordenadosBarrio = parcelas.sort(function(a, b){
     let aParcela = a.barrio.toLowerCase();
     let bParcela = b.barrio.toLowerCase();
@@ -55,7 +55,6 @@ function ordenarBarrio( ) {
   crearTabla(ordenadosBarrio);
 }
   
-
 //////////////Buscar y resetar///////////////////////////////
 
 let buscador = document.getElementById("busquedaNombre");
@@ -63,9 +62,9 @@ let btnBuscar = document.getElementById("button-addon2");
 let btnReset = document.getElementById("button-reset");
 
 let arrayBuscar = []
+let search = buscador.value.trim().toLowerCase();
  
 btnBuscar.addEventListener("click", () => {
-  const search = buscador.value.trim().toLowerCase();
   const buscados = parcelas.filter((lote) => lote.barrio.toLowerCase().includes(search));
   container.innerHTML = "";
   crearTabla( buscados )
@@ -90,3 +89,35 @@ function validate(e) {
   container.innerHTML = "";
   crearTabla( buscados )
 }
+
+///////////Filtro por estado//////////
+
+let estadoElegido = document.getElementById("estado")
+let estadosParcelas = [];
+
+estadoElegido.addEventListener("click", () => {
+  const porEstado = parcelas.filter((lote) => lote.estado.includes(estadoElegido.value));
+
+  switch(estadoElegido.value) {
+    case 'disponible':
+      container.innerHTML ="";
+      console.log("lotes disponibles")
+      crearTabla(porEstado)
+      break;
+    case 'reservado':
+      container.innerHTML ="";
+      console.log("lotes reservados")
+      crearTabla(porEstado)
+      break;
+    case 'vendido':
+      container.innerHTML ="";
+      console.log("lotes vendidos")
+      crearTabla(porEstado)
+      break;
+    default: 
+      container.innerHTML ="";
+      crearTabla(parcelas)
+  }
+
+})
+

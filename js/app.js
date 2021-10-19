@@ -32,13 +32,13 @@ const crearTabla = (array) => {
         
         container.innerHTML +=  `
         <tr>
-        <th scope="row">${lote.barrio}</th>
-        <td>${lote.lote}</td>
-        <td>${lote.manzana}</td>
-        <td>${lote.mts}</td>
-        <td>$${lote.$contado}</td>
-        <td>${lote.estado}</td>
-        <td><button type="button" class="btn btn-success" id="btnCotizar" onclick="cotizar(${lote.id})">cotizar</button></td>
+        <th class="table-light" scope="row">${lote.barrio}</th>
+        <td class="table-light">${lote.lote}</td>
+        <td class="table-light">${lote.manzana}</td>
+        <td class="table-light">${lote.mts}</td>
+        <td class="table-light">$${lote.$contado}</td>
+        <td class="table-light">${lote.estado}</td>
+        <td class="table-light"><button type="button" class="btn btn-success" id="btnCotizar" onclick="cotizar(${lote.id})">cotizar</button></td>
         </tr>`
     })
     
@@ -119,44 +119,51 @@ const actualizarCotizador = () => {
     modal.innerHTML =
     `<div class="modal-body">
         <div class="modal-dialog">
-                <div class="modal-content">
+            <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Cotizador</h5>
+                        <h5 class="modal-title success">Cotizador</h5>
+                        
                         <button type="button" class="btn-close" data-bs-dismiss="modal" id="modal-cerrar" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
                                     <label for="formGroupExampleInput" class="form-label">N° de Lote</label>
-                                    <input type="text" class="form-control" id="formGroupExampleInput" value="${lote.lote}">
+                                    <input type="text" class="form-control" id="formGroupExampleInput" value="${lote.lote}" readonly>
                                 </div>
                                 <div class="mb-3">
                                     <label for="formGroupExampleInput2" class="form-label">Precio a financiar</label>
-                                    <input type="number" class="form-control" id="formGroupExampleInput2" value="${lote.precio}">
+                                    <input type="number" class="form-control" id="formGroupExampleInput2" value="${lote.precio}" readonly>
                                 </div>
                                 <div class="form-floating">
-                                    <select class="form-select" id="floatingSelect" aria-label="Floating label select example" onchange=planDetails()>
+                                    <select class="form-select" id="floatingSelect" aria-label="Floating label select example" onclick=planDetails()>
                                         <option class="Raices" value="${planes[0].nombrePlan}">${planes[0].nombrePlan}</option>
                                         <option class="Tronco" value="${planes[1].nombrePlan}">${planes[1].nombrePlan}</option>
                                         <option class="Copa" value="${planes[2].nombrePlan}">${planes[2].nombrePlan}</option>
                                     </select>
                                     <div id="detallesPlan"> 
                                         <label for="formGroupExampleInput3" class="form-label">Cantidad de meses del plan</label>
-                                        <input type="number" class="form-control" id="formGroupExampleInput3" value="">
+                                        <input type="number" class="form-control" id="formGroupExampleInput3" value="60" readonly>
                                         <label for="formGroupExampleInput3" class="form-label">Interés anual del plan</label>
-                                        <input type="number" class="form-control" id="formGroupExampleInput4" value="">
+                                        <input type="number" class="form-control" id="formGroupExampleInput4" value="10" readonly>
                                     </div>
 
-                                    <label for="floatingSelect">Seleccione el Plan elegido</label>
+                                    <label for="floatingSelect">Seleccione el Plan</label>
                                     <br></br>
-                                    <button type="button" class="btn btn-secondary" id="btnSimular" onclick=simularCuotas()>Simular cuotas</button>
-                                    <button type="button" class="btn btn-primary" id="btnAtras">atras</button>
+                                    
+                                    <button type="button" class="btn btn-success" id="btnSimular" onclick=simularCuotas() data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                        Simular cuotas
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" id="btnAtras">atras</button>
+                                    <br></br>
+                                    <img src="images/lote1.jpg"  alt="">
+                                     
                                 </div>
                         </div>
-                    
                 </div>
             </div>
         </div>
-    </div>`
+    </div>
+</div>`
 
     modalContainer.appendChild(modal);
     })
@@ -165,33 +172,32 @@ const actualizarCotizador = () => {
 
 
 
-//////////////////////Función que calcula el valor de las cuotas respecto al lote y plan elegido///////////////////
+//////////////////////Función para pasar al cotizador los datos segun el plan elegido///////////////////
 
 let precioLoteIngresado, interesPlanElegido, cuotasPlanIngresado
 
-// const planDetails = () => {
-//     console.log("probando")
+const planDetails = () => {
+       
+    //verifico el plan elegido
+    let planElegido = document.getElementById("floatingSelect").value
+    let planIngresado = planes.filter(Plan => Plan.nombrePlan  === planElegido);
+    console.log(planIngresado)
     
-//     //verifico el plan elegido
-//     let planElegido = document.getElementById("floatingSelect").value
-//     let planIngresado = planes.filter(Plan => Plan.nombrePlan  === planElegido);
-//     console.log(planIngresado)
+    //encontrar la cantidad de cuotas del plan ingresado
+    let inputCuotas= document.getElementById("formGroupExampleInput3");
+    let mesesPlan =  planIngresado.find(Plan => Plan.cuotas)
+    inputCuotas.value = mesesPlan.cuotas
+    console.log(inputCuotas.value)
     
-//     //encontrar la cantidad de cuotas del plan ingresado
-//     let mesesPlan = document.getElementById("formGroupExampleInput3").value;
-//     mesesPlan =  planIngresado.find(Plan => Plan.cuotas)
-
-//     console.log(mesesPlan)
-    
-//     //busco el indice del interes del plan elegido y muestro en consola
-//     let interesPlan = document.getElementById("formGroupExampleInput4").value;
-//     interesPlanElegido = planIngresado.find(Plan => Plan.interes)
-//     interesPlan = interesPlanElegido
+    //busco el indice del interes del plan elegido y muestro en consola
+    let interesPlan = document.getElementById("formGroupExampleInput4");
+    let interesPlanElegido = planIngresado.find(Plan => Plan.interes)
+    interesPlan.value = interesPlanElegido.interes
      
     
-// }
+}
 
-
+//////////////////////Función que calcula el valor de las cuotas respecto al lote y plan elegido///////////////////
 //verifico el producto elegido
 function simularCuotas(){
 
@@ -221,10 +227,43 @@ function simularCuotas(){
 
     //calculo el monto a financiar
     const cuota = Math.round( importe / (( (1 - ( 1 + tasaInteresMensual) ** - cuotasPlanIngresado.cuotas)) / tasaInteresMensual))
-    console.log(cuota)
-    alert("Costo total del lote: $ "+ importe + " ,financiado en: "+ cuotasPlanIngresado.cuotas + " meses, interés anual de: "+ interesPlanElegido.interes +" %, valor de cuota: $ " + cuota)
+    // console.log(cuota)
+    // alert("Costo total del lote: $ "+ importe + " ,financiado en: "+ cuotasPlanIngresado.cuotas + " meses, interés anual de: "+ interesPlanElegido.interes +" %, valor de cuota: $ " + cuota)
 
+    let modal2 = document.getElementById("modal-body2");
+    modal2.innerHTML =
+    `<p> Costo total del lote: ${importe},financiado en: ${cuotasPlanIngresado.cuotas} meses, interés anual de: ${interesPlanElegido.interes}%, valor de cuota: $${cuota} </p>`
 
 }
 
+////////////cambiar theme mode con Jquery//////////
+let table = document.getElementsByClassName("table-light");
 
+$(document).ready(function(){
+    
+    $('#flexSwitchCheckDefault').click(function(){
+        let element = document.body;         
+        element.classList.toggle("dark"); 
+        container.classList.toggle("table-dark"); 
+        table.classList.toggle("table-dark");
+    });
+}); 
+
+// Modal boton
+
+
+////////////abrir y cerrar modal de cotizaciones
+let sideNav = document.getElementById("menu")
+
+let cotizaciones = document.getElementById("nav-link").addEventListener("click", () => {
+
+    sideNav.classList.remove("sidenavHidden")
+    sideNav.classList.add("sidenav")
+})
+
+let btnCerrar = document.getElementById("closebtn").addEventListener("click", () => {
+    
+    sideNav.classList.remove("sidenav")
+    sideNav.classList.add("sidenavHidden")
+    
+})

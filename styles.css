@@ -1,0 +1,87 @@
+* {
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+    
+}
+
+body {
+    
+    background: linear-gradient(to right, #92d597,#1e5f32 );
+}
+
+.dark {
+    background: linear-gradient(to right, #345034, #222222);
+}
+
+
+img {
+    height: fit-content;
+    width: 100%;
+}
+
+.modal-container {
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.3s ease-in;
+}
+
+.modal-active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.modal-header {
+    background-color: #92d597;
+}
+
+.input-group .btn {
+    
+    z-index: 0;
+}
+
+.form-select {
+    
+    background-size: 20px 26px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.sidenavHidden {
+    display: none;
+}
+.sidenav {
+    height: 100%;
+    width: 300px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    background-color: grey;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+
+.guardados {
+    color: lightgray;
+    padding: 5%;
+}
+
+.puntitos2 {
+    border-bottom-style: dotted;
+    border-bottom-width: 4px;
+    color: lightgray;
+    padding: 2%;
+    padding-bottom: 10%;
+}

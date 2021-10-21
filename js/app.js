@@ -249,21 +249,42 @@ $(document).ready(function(){
     });
 }); 
 
-// Modal boton
+
+////////////Animación bienvenida//////////////////
 
 
-////////////abrir y cerrar modal de cotizaciones
-let sideNav = document.getElementById("menu")
-
-let cotizaciones = document.getElementById("nav-link").addEventListener("click", () => {
-
-    sideNav.classList.remove("sidenavHidden")
-    sideNav.classList.add("sidenav")
+$(document).ready(()=>{
+    $("#bienvenidos").fadeOut(3000);
+    $("#bienvenidos")
+        .slideUp(2000)
+        .delay(2000);
+        
+        $("<section>")
+        .slideDown(2000)
+        .delay(2000);
 })
 
-let btnCerrar = document.getElementById("closebtn").addEventListener("click", () => {
-    
-    sideNav.classList.remove("sidenav")
-    sideNav.classList.add("sidenavHidden")
-    
+////////////// Modal boton///////////////////
+
+//abrir y cerrar modal de cotizaciones
+
+$("#nav-link").click( () => {
+    $("#menu").fadeIn(800);
+    $("#menu").css({
+        "height": "100%",
+        "width": "300px",
+        "position": "fixed",
+        "z-index": "1",
+        "top": "0",
+        "right": "0",
+        "background-color": "grey",
+        "overflow-x": "hidden",
+        "padding-top": "60px"
+    })
 })
+
+$("#closebtn").click( () => {
+    $("#menu").fadeOut(800);
+})
+
+

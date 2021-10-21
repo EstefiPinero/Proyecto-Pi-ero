@@ -14,6 +14,17 @@ body {
     background: linear-gradient(to right, #345034, #222222);
 }
 
+#bienvenidos {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   background-color: black;
+   color: white;
+   font-size: 32px;
+   font-weight: 700;
+   height: 100vh;
+   width: 100vw;
+   }	
 
 img {
     height: fit-content;
@@ -59,7 +70,7 @@ img {
 .sidenavHidden {
     display: none;
 }
-.sidenav {
+/* .sidenav {
     height: 100%;
     width: 300px;
     position: fixed;
@@ -70,7 +81,7 @@ img {
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 60px;
-}
+} */
 
 
 .guardados {

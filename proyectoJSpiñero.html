@@ -11,48 +11,55 @@
 
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <img src="images/531.jpg" style="width: 100px;" alt="">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#"></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="nav-link" href="#">Mis cotizaciones</a>
-          </li>
-          <!-- <li class="nav-item">
-            <a class="nav-link" href="#">Pricing</a>
-          </li> -->
-        </ul>
+  <div id="bienvenidos">Bienvenidos</div>
+  <section>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <img src="images/531.jpg" style="width: 100px;" alt="">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="nav-link" href="#">Mis cotizaciones</a>
+            </li>
+            <!-- <li class="nav-item">
+              <a class="nav-link" href="#">Pricing</a>
+            </li> -->
+          </ul>
+        </div>
       </div>
-    </div>
-    <div class="form-check form-switch">
-      <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-      <label class="form-check-label" for="flexSwitchCheckDefault">Dark</label>
-    </div>
-  </nav>  
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+        <label class="form-check-label" for="flexSwitchCheckDefault">Dark</label>
+      </div>
+    </nav>  
+  </section>
+
   <!-- mis cotizaciones -->
-  <div id="menu" class="sidenavHidden">
-    <i class="fas fa-times" class="closebtn" id="closebtn"></i>
-    <h1>Lotes Cotizados</h1>
-    <div id="resultado" class="guardados"><p class="puntitos2">
-      <p id="cotizacion">
+  <section> 
+
+    <div id="menu" class="sidenavHidden">
+      <i class="fas fa-times" class="closebtn" id="closebtn"></i>
+      <h1>Lotes Cotizados</h1>
+      <div id="resultado" class="guardados"><p class="puntitos2">
+        <p id="cotizacion">
+          
+        </p>
         
-      </p>
+        
+      </div>
       
-
+      
     </div>
-        
-
-  </div>
+  </section>
   <br>
-  </div>
+  
   <!-- BUSCADOR -->
   <div class="row justify-content-center">    
     <div class="col-4">
@@ -79,7 +86,7 @@
                     <th scope="col" style="font-size: 20px;">Lote</th>
                     <th scope="col" id="filtroManzana" style="font-size: 20px;">Manzana <i class="fas fa-sort-numeric-up" style="color: orangered; font-size: 25px; cursor: pointer;"></i></th>
                     <th scope="col" style="font-size: 20px;">mts2</th>
-                    <th scope="col" id="filtroPrecio" style="font-size: 20px;">Precio contado <i class="fas fa-sort-numeric-up" style="color: orangered; font-size: 25px; cursor: pointer;"></i></th>
+                    <th scope="col" id="filtroPrecio" style="font-size: 20px;">Precio contado <i class="fas fa-sort-numeric-up" id="filtroPrecio" style="color: orangered; font-size: 25px; cursor: pointer;"></i></th>
                     <th scope="col" > <select class="form-select" aria-label="Default select example" id="estado">
                       <option selected>Estado </option>
                       <option id="disponible" value="disponible">Disponible</option>
@@ -120,7 +127,7 @@
     <div class="modal-container" id="modal-container">
 
     </div>
-
+  </div>
 <!-- Modal -->
   <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -137,7 +144,7 @@
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">cerrar</button>
           </div>
       </div>
-</div>
+    </div>
   </div>
     
     <script src="js/jquery-3.6.0.min.js"></script>

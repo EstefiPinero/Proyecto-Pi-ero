@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 
 </head>
-<body>
+<body class="light">
   <div id="bienvenidos">Bienvenidos</div>
   <section>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -33,10 +33,10 @@
             </li> -->
           </ul>
         </div>
-      </div>
-      <div class="form-check form-switch">
-        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-        <label class="form-check-label" for="flexSwitchCheckDefault">Dark</label>
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+          <label class="form-check-label" for="flexSwitchCheckDefault">Dark</label>
+        </div>
       </div>
     </nav>  
   </section>
@@ -61,21 +61,24 @@
   <br>
   
   <!-- BUSCADOR -->
-  <div class="row justify-content-center">    
-    <div class="col-4">
-        <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Buscar por nombre" id="busquedaNombre">
-            <div class="input-group-append">
-                <button class="btn btn-warning" type="button" id="button-addon2">
-                    Buscar
-                </button>
-                <button class="btn btn-secondary"type="button" id="button-reset">
-                    Reset
-                </button>
-            </div>
-        </div>
+  <div class="container"> 
+    
+    <div class="row justify-content-center">    
+      <div class="col-4">
+          <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Buscar por nombre" id="busquedaNombre">
+              <div class="input-group-append">
+                  <button class="btn btn-warning" type="button" id="button-addon2">
+                      Buscar
+                  </button>
+                  <button class="btn btn-secondary"type="button" id="button-reset">
+                      Reset
+                  </button>
+              </div>
+          </div>
       </div>
     </div>
+  </div>
     <div class="container" id="container">
     <!-- TABLA DE PRODUCTOS -->
         <div class="table-responsive">
@@ -127,25 +130,44 @@
     <div class="modal-container" id="modal-container">
 
     </div>
+    
   </div>
+<!-- Amortizaciones -->
 <!-- Modal -->
   <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
           <div class="modal-header">
-              <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+              <h5 class="modal-title" id="staticBackdropLabel">Simulador de cuotas</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body" id="modal-body2">
-              
+            <div class="table-responsive">
+              <table class="table table-hover table-bordered table-warning">
+                  <thead class="table-dark rounded ">
+                      <tr>
+                          <th scope="col" class="table-light" scope="row">N° cuota</td>
+                          <th scope="col" class="table-light">Valor cuota</td>
+                          <th scope="col" class="table-light">Intereses</td>
+                          <th scope="col" class="table-light">Impuesto</td>
+                          <th scope="col" class="table-light">Capital</td>
+                          <th scope="col" class="table-light">Saldo Insoluto</td>
+                      </tr>
+                  </thead>
+                  <tbody id="tbContainer2">
+                      
+                  </tbody>
+              </table>
+          </div>
           </div>
           <div class="modal-footer">
-              <button type="button" class="btn btn-success" disabled>Aceptar</button>
+              <button type="button" class="btn btn-success" onclick="amortizacion()">Guardar Plan</button>
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">cerrar</button>
           </div>
       </div>
     </div>
   </div>
+  
     
     <script src="js/jquery-3.6.0.min.js"></script>
     <script src="js/bootstrap.min.js"></script> 

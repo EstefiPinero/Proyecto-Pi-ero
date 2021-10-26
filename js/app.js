@@ -115,6 +115,7 @@ const actualizarCotizador = () => {
     modalContainer.innerHTML = "";
     let modal = document.createElement("div");
     modal.className = ("modal-active");
+    modal.id = ("modal-active");
 
     modal.innerHTML =
     `<div class="modal-body">
@@ -199,6 +200,10 @@ const planDetails = () => {
 
 //////////////////////Función que calcula el valor de las cuotas respecto al lote y plan elegido///////////////////
 //verifico el producto elegido
+
+let tbContainer2 = document.getElementById("tbContainer2");
+let IVA = 1.21
+
 function simularCuotas(){
 
     //busco el indice del precio $contado del lote elegido e imprimo en consola
@@ -222,31 +227,63 @@ function simularCuotas(){
     console.log(planIngresado)
     const importe = precioLoteIngresado
     const tasaInteresMensual = (interesPlanElegido.interes/100) /12
-    console.log(tasaInteresMensual)
+    console.log(tasaInteresMensual) 
+
+    ////////////////////////////////////////////////////////////////////////
+
+    
 
 
     //calculo el monto a financiar
     const cuota = Math.round( importe / (( (1 - ( 1 + tasaInteresMensual) ** - cuotasPlanIngresado.cuotas)) / tasaInteresMensual))
-    // console.log(cuota)
+    console.log(cuota)
     // alert("Costo total del lote: $ "+ importe + " ,financiado en: "+ cuotasPlanIngresado.cuotas + " meses, interés anual de: "+ interesPlanElegido.interes +" %, valor de cuota: $ " + cuota)
 
-    let modal2 = document.getElementById("modal-body2");
-    modal2.innerHTML =
-    `<p> Costo total del lote: ${importe},financiado en: ${cuotasPlanIngresado.cuotas} meses, interés anual de: ${interesPlanElegido.interes}%, valor de cuota: $${cuota} </p>`
+    
+    tbContainer2.innerHTML +=
+    `<tr>
+    <td class="table-light" scope="row">${cuotasPlanIngresado.cuotas}</td>
+    <td class="table-light">$${cuota}</td>
+    <td class="table-light">${interesPlanElegido.interes}%</td>
+    <td class="table-light"></td>
+    <td class="table-light"></td>
+    <td class="table-light">$${importe}</td>
+    </tr>
+    `
+    // `<p> Costo total del lote: ${importe},financiado en: ${cuotasPlanIngresado.cuotas} meses, interés anual de: ${interesPlanElegido.interes}%, valor de cuota: $${cuota} </p>`
 
 }
+////////////////////////////cuotas amortización ///////////////////////////////////////////////////////////////
+let modalActive = document.getElementById("#modal-active");
+let staticBackdrop = document.getElementById("staticBackdrop");
+let containerModal = document.getElementById("modal-container");
+let container2 = document.getElementById("container");
+
+var columnas = [ 'No.',  'Mensualidad', 'Intereses', 'Impuestos', 'Capital', 'Insoluto' ]
+
+
 
 ////////////cambiar theme mode con Jquery//////////
 let table = document.getElementsByClassName("table-light");
 
+// if(localStorage.getItem("light")){   
+//     localStorage.setItem("light",true);
+// };
+
 $(document).ready(function(){
     
     $('#flexSwitchCheckDefault').click(function(){
-        let element = document.body;         
-        element.classList.toggle("dark"); 
-        container.classList.toggle("table-dark"); 
-        table.classList.toggle("table-dark");
-    });
+         
+            let element = document.body;         
+            
+                element.classList.toggle("dark"); 
+                console.log("prueba")
+                container.classList.toggle("table-dark"); 
+                table.classList.toggle("table-dark");
+            
+        
+    })
+    // localStorage.setItem("dark", true)
 }); 
 
 

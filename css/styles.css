@@ -38,16 +38,15 @@ img {
     position: fixed;
     top: 0;
     left: 0;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
-    visibility: hidden;
     opacity: 0;
     transition: all 0.3s ease-in;
 }
 
 .modal-active {
-    visibility: visible;
+    display: flex;
     opacity: 1;
 }
 
@@ -95,4 +94,12 @@ img {
     color: lightgray;
     padding: 2%;
     padding-bottom: 10%;
+}
+
+.none {
+    display: none;
+}
+
+#modal-body2 {
+    overflow-y: scroll;
 }

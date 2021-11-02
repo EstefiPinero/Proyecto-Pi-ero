@@ -1,5 +1,3 @@
-
-
 //funcion para denifir las clases de los objetos 
 class Parcela {
     constructor(id, barrio, lote, manzana, mts, $contado, estado) {
@@ -13,15 +11,6 @@ class Parcela {
     }
 }
 
-//creo nuevos objetos de parcelas
-// const parcela1 = new Parcela (1, "El Arrabal", 1, 135, 233, 2330000, "disponible");
-// const parcela2 = new Parcela (2, "El Ombu", 2, 125, 278, 2780000, "reservado");
-// const parcela3 = new Parcela (3, "El Quebracho", 3, 109, 253, 2530000, "vendido");
-
-//parcelas.push(parcela1, parcela2, parcela3);
-
-
-
 //recorrer el array imprimiendo html de cada uno de los objetos
 let container = document.getElementById("tbContainer")
 let modalContainer = document.getElementById("modal-container");
@@ -32,46 +21,62 @@ const crearTabla = (array) => {
         
         container.innerHTML +=  `
         <tr>
-        <th class="table-light" scope="row">${lote.barrio}</th>
-        <td class="table-light">${lote.lote}</td>
-        <td class="table-light">${lote.manzana}</td>
-        <td class="table-light">${lote.mts}</td>
-        <td class="table-light">$${lote.$contado}</td>
-        <td class="table-light">${lote.estado}</td>
-        <td class="table-light"><button type="button" class="btn btn-success" id="btnCotizar" onclick="cotizar(${lote.id})">cotizar</button></td>
+            <th class="table-light" scope="row">${lote.barrio}</th>
+            <td class="table-light">${lote.lote}</td>
+            <td class="table-light">${lote.manzana}</td>
+            <td class="table-light">${lote.mts}</td>
+            <td class="table-light">$${lote.$contado}</td>
+            <td class="table-light">${lote.estado}</td>
+            <td class="table-light"><button type="button" class="btn btn-success" id="btnCotizar" onclick="cotizar(${lote.id})">cotizar</button></td>
         </tr>`
     })
     
 }    
 crearTabla(parcelas)
 
+//acciones extras
+
+
+
+
+
+
 //function para pasar los datos al cotizador
 let parcelaEnCotizador = [];
       
 const cotizar = (loteId) => {
-    
-    
+       
     const loteAcotizar = parcelas.find((lote) => lote.id === loteId)
     
     parcelaEnCotizador.push({
         lote:  loteAcotizar.lote,
+        manzana: loteAcotizar.manzana,
         precio: parseInt(loteAcotizar.$contado),
+        estado: loteAcotizar.estado
+    })
+
+    if( loteAcotizar.estado == "vendido"){
+        alert("no")
+        // let modal4 = document.getElementById("exampleModal4")
+        // modal4.innerHTML= " ";
+        // modal4.innerHTML =
+        // ` `
+    } else { 
+        console.log(`El lote elegido es: `)
+        console.log(parcelaEnCotizador)
         
-    })
-    console.log(`El lote elegido es: `)
-    console.log(parcelaEnCotizador)
-    
-    actualizarCotizador();
-    modalContainer.classList.toggle('modal-active')
-    const modalCerrar = document.getElementById('modal-cerrar')
-    modalCerrar.addEventListener('click', () => {
+        actualizarCotizador();
         modalContainer.classList.toggle('modal-active')
-    })
-    
-    const btnAtras = document.getElementById('btnAtras')
-    btnAtras.addEventListener('click', () => {
-        modalContainer.classList.toggle('modal-active')
-    })
+        const modalCerrar = document.getElementById('modal-cerrar')
+        modalCerrar.addEventListener('click', () => {
+            modalContainer.classList.toggle('modal-active')
+        })
+        
+        const btnAtras = document.getElementById('btnAtras')
+        btnAtras.addEventListener('click', () => {
+            modalContainer.classList.toggle('modal-active')
+        })
+    }
 }
 /////////////////////Función que muestra el interés respecto al tipo de financiación////////////////////////////
 
@@ -106,6 +111,25 @@ for (const Plan of planes){
     Plan.interesesTasa();
     console.log(`El interes del plan ${Plan.nombrePlan} es ${Plan.tasa} % anual`)
 }
+
+
+////////////////
+
+let dropMenuBtn = document.getElementById("dropdownMenu2")
+let dropMenu = document.getElementById("dropdown-menu")
+
+dropMenuBtn.addEventListener("click", ()=>{
+    if(dropMenu.style.display == "") {
+        dropMenu.style.display = "block";
+
+    }else if(dropMenu.style.display == "block"){
+        dropMenu.style.display = "";
+    }
+})
+
+
+
+
 //============== AGREGAR PARCELA AL COTIZADOR ==============//
     
 //function actualizarCotizador () {
@@ -128,12 +152,15 @@ const actualizarCotizador = () => {
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                                    <label for="formGroupExampleInput" class="form-label">N° de Lote</label>
-                                    <input type="text" class="form-control" id="formGroupExampleInput" value="${lote.lote}" readonly>
-                                </div>
+                            <label for="formGroupExampleInput" class="form-label">N° de Lote</label>
+                            <input type="text" class="form-control" id="formGroupExampleInput" value="${lote.lote}" readonly>
+                            <label for="formGroupExampleInput" class="form-label">Manzana</label>
+                            <input type="text" class="form-control" id="formGroupExampleInput0" value="${lote.manzana}" readonly>
+                            </div>
                                 <div class="mb-3">
                                     <label for="formGroupExampleInput2" class="form-label">Precio a financiar</label>
                                     <input type="number" class="form-control" id="formGroupExampleInput2" value="${lote.precio}" readonly>
+                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="dolarizar()">USD</button>
                                 </div>
                                 <div class="form-floating">
                                     <select class="form-select" id="floatingSelect" aria-label="Floating label select example" onclick=planDetails()>
@@ -158,17 +185,18 @@ const actualizarCotizador = () => {
                                     <br></br>
                                     <img src="images/lote1.jpg"  alt="">
                                      
-                                </div>
+                            </div>
                         </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>`
+    </div>`
 
     modalContainer.appendChild(modal);
     })
 }
+
 
 
 
@@ -225,34 +253,74 @@ function simularCuotas(){
 
     //calculo el interés
     console.log(planIngresado)
-    const importe = precioLoteIngresado
-    const tasaInteresMensual = (interesPlanElegido.interes/100) /12
+    let importe = precioLoteIngresado
+    let tasaInteresMensual = (interesPlanElegido.interes/100) /12
     console.log(tasaInteresMensual) 
 
     ////////////////////////////////////////////////////////////////////////
 
     
 
-
     //calculo el monto a financiar
-    const cuota = Math.round( importe / (( (1 - ( 1 + tasaInteresMensual) ** - cuotasPlanIngresado.cuotas)) / tasaInteresMensual))
+    let cuota = Math.round( importe / (( (1 - ( 1 + tasaInteresMensual) ** - cuotasPlanIngresado.cuotas)) / tasaInteresMensual))
     console.log(cuota)
-    // alert("Costo total del lote: $ "+ importe + " ,financiado en: "+ cuotasPlanIngresado.cuotas + " meses, interés anual de: "+ interesPlanElegido.interes +" %, valor de cuota: $ " + cuota)
-
-    
+   
+    tbContainer2.innerHTML= " ";
     tbContainer2.innerHTML +=
     `<tr>
-    <td class="table-light" scope="row">${cuotasPlanIngresado.cuotas}</td>
-    <td class="table-light">$${cuota}</td>
-    <td class="table-light">${interesPlanElegido.interes}%</td>
-    <td class="table-light"></td>
-    <td class="table-light"></td>
-    <td class="table-light">$${importe}</td>
+        <td class="table-light" scope="row">${cuotasPlanIngresado.cuotas}</td>
+        <td class="table-light">$${cuota}</td>
+        <td class="table-light">${interesPlanElegido.interes}%</td>
+        <td class="table-light"></td>
+        <td class="table-light"></td>
+        <td class="table-light">$${importe}</td>
     </tr>
     `
-    // `<p> Costo total del lote: ${importe},financiado en: ${cuotasPlanIngresado.cuotas} meses, interés anual de: ${interesPlanElegido.interes}%, valor de cuota: $${cuota} </p>`
 
+
+    ////////////////////guardar plan////////////////////
+
+    let guardarPlan = document.getElementById("guardarPlan")
+    let formGroupExampleInput = document.getElementById("formGroupExampleInput")
+    let formGroupExampleInput0 = document.getElementById("formGroupExampleInput0")
+
+
+    guardarPlan.addEventListener("click", () =>{
+        
+        let cotizados = document.getElementById("cotizados");
+        
+        cotizados.innerHTML =`
+        <table class="table table-hover table-bordered table-warning">
+              <thead class="table-dark rounded ">
+                  <tr>
+                      <th scope="col" class="table-light" scope="row">N° cuota</td>
+                      <th scope="col" class="table-light">Valor cuota</td>
+                      <th scope="col" class="table-light">Intereses</td>
+                      <th scope="col" class="table-light">Impuesto</td>
+                      <th scope="col" class="table-light">Capital</td>
+                      <th scope="col" class="table-light">Saldo Insoluto</td>
+                  </tr>
+              </thead>
+              <p>Lote ${formGroupExampleInput.value} Manzana ${formGroupExampleInput0.value} </p>
+              <tbody >
+                <tr>
+                    <td class="table-light" scope="row">${cuotasPlanIngresado.cuotas}</td>
+                    <td class="table-light">$${cuota}</td>
+                    <td class="table-light">${interesPlanElegido.interes}%</td>
+                    <td class="table-light"></td>
+                    <td class="table-light"></td>
+                    <td class="table-light">$${importe}</td>
+                </tr>
+              </tbody>
+          </table>
+      
+        `;
+        
+    });
 }
+
+
+
 ////////////////////////////cuotas amortización ///////////////////////////////////////////////////////////////
 let modalActive = document.getElementById("#modal-active");
 let staticBackdrop = document.getElementById("staticBackdrop");
@@ -263,12 +331,12 @@ var columnas = [ 'No.',  'Mensualidad', 'Intereses', 'Impuestos', 'Capital', 'In
 
 
 
+
+
+
 ////////////cambiar theme mode con Jquery//////////
 let table = document.getElementsByClassName("table-light");
 
-// if(localStorage.getItem("light")){   
-//     localStorage.setItem("light",true);
-// };
 
 $(document).ready(function(){
     
@@ -283,8 +351,42 @@ $(document).ready(function(){
             
         
     })
-    // localStorage.setItem("dark", true)
+  
 }); 
+
+///////////////////Consumiendo API////////////////
+
+$.get("https://v6.exchangerate-api.com/v6/b3999cd76f3eda5856244288/latest/USD", (response) => {
+    data = response
+    console.log(data)
+
+        $("#exchange").append(
+            `<p>Valor dolar $${data.conversion_rates.ARS}</p>`
+        )
+   
+})
+
+
+const dolarizar = (()=> {
+    
+    fetch("https://v6.exchangerate-api.com/v6/b3999cd76f3eda5856244288/latest/USD")
+        .then( (response) => 
+            response.json())
+        .then((data) => {
+            let precioArs = document.getElementById("formGroupExampleInput2").value
+            let cambio = data.conversion_rates.ARS
+            let conversion = parseInt(precioArs/cambio)
+
+            $("#modal-body3").html(" ")
+            $("#modal-body3").append(
+                `<p>Precio del lote en dólares $${conversion}</p>
+                <p>Valido hasta ${data.time_last_update_utc}</p>`
+            )
+        })
+        .catch ((err) => console.log(err))
+        
+}) 
+    
 
 
 ////////////Animación bienvenida//////////////////

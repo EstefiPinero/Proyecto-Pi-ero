@@ -11,44 +11,45 @@ class Parcela {
     }
 }
 
+
+
 //recorrer el array imprimiendo html de cada uno de los objetos
 let container = document.getElementById("tbContainer")
 let modalContainer = document.getElementById("modal-container");
+
+
 
 const crearTabla = (array) => {
     
     array.forEach((lote) => {
         
+        // <td class="">${lote.id}</td>
         container.innerHTML +=  `
         <tr>
-            <th class="table-light" scope="row">${lote.barrio}</th>
-            <td class="table-light">${lote.lote}</td>
-            <td class="table-light">${lote.manzana}</td>
-            <td class="table-light">${lote.mts}</td>
-            <td class="table-light">$${lote.$contado}</td>
-            <td class="table-light">${lote.estado}</td>
-            <td class="table-light"><button type="button" class="btn btn-success" id="btnCotizar" onclick="cotizar(${lote.id})">cotizar</button></td>
+            <th class="" scope="row">${lote.barrio}</th>
+            <td class="">${lote.lote}</td>
+            <td class="">${lote.manzana}</td>
+            <td class="">${lote.mts}</td>
+            <td class="">$${lote.$contado}</td>
+            <td class="">${lote.estado}</td>
+            <td class=""><button type="button" class="btn btn-success" id="btnCotizar" onclick="cotizar(${lote.id})">cotizar</button></td>
         </tr>`
     })
     
 }    
 crearTabla(parcelas)
 
-//acciones extras
-
-
-
-
-
 
 //function para pasar los datos al cotizador
 let parcelaEnCotizador = [];
+
       
 const cotizar = (loteId) => {
        
     const loteAcotizar = parcelas.find((lote) => lote.id === loteId)
     
     parcelaEnCotizador.push({
+        id: loteAcotizar.id,
         lote:  loteAcotizar.lote,
         manzana: loteAcotizar.manzana,
         precio: parseInt(loteAcotizar.$contado),
@@ -56,11 +57,8 @@ const cotizar = (loteId) => {
     })
 
     if( loteAcotizar.estado == "vendido"){
-        alert("no")
-        // let modal4 = document.getElementById("exampleModal4")
-        // modal4.innerHTML= " ";
-        // modal4.innerHTML =
-        // ` `
+        alert("este lote fue vendido, no se puede cotizar")
+  
     } else { 
         console.log(`El lote elegido es: `)
         console.log(parcelaEnCotizador)
@@ -106,14 +104,7 @@ const plan3 = new Plan (3, "Copa", 120, 18);
 
 planes.push(plan1, plan2, plan3)
 
-//recorro array para mostrar la tasa de interes por tipo de plan
-for (const Plan of planes){
-    Plan.interesesTasa();
-    console.log(`El interes del plan ${Plan.nombrePlan} es ${Plan.tasa} % anual`)
-}
-
-
-////////////////
+//////////////////acciones extras
 
 let dropMenuBtn = document.getElementById("dropdownMenu2")
 let dropMenu = document.getElementById("dropdown-menu")
@@ -127,8 +118,9 @@ dropMenuBtn.addEventListener("click", ()=>{
     }
 })
 
-
-
+// $("body").click( () => {
+//     dropMenu.style.display = "";
+// })
 
 //============== AGREGAR PARCELA AL COTIZADOR ==============//
     
@@ -142,7 +134,7 @@ const actualizarCotizador = () => {
     modal.id = ("modal-active");
 
     modal.innerHTML =
-    `<div class="modal-body">
+    `<div class=" modal-body">
         <div class="modal-dialog">
             <div class="modal-content">
                     <div class="modal-header">
@@ -150,8 +142,10 @@ const actualizarCotizador = () => {
                         
                         <button type="button" class="btn-close" data-bs-dismiss="modal" id="modal-cerrar" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body modalLight" id="mdlCotiz">
                         <div class="mb-3">
+                            <label for="formGroupExampleInput" class="form-label">Id N:°</label>
+                            <input type="text" class="form-control" id="formGroupExampleInputId" value="${lote.id}" readonly
                             <label for="formGroupExampleInput" class="form-label">N° de Lote</label>
                             <input type="text" class="form-control" id="formGroupExampleInput" value="${lote.lote}" readonly>
                             <label for="formGroupExampleInput" class="form-label">Manzana</label>
@@ -160,7 +154,17 @@ const actualizarCotizador = () => {
                                 <div class="mb-3">
                                     <label for="formGroupExampleInput2" class="form-label">Precio a financiar</label>
                                     <input type="number" class="form-control" id="formGroupExampleInput2" value="${lote.precio}" readonly>
-                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="dolarizar()">USD</button>
+                                    <p>
+                                    <button class="btn btn-warning" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" onclick="dolarizar()">
+                                      USD
+                                    </button>
+                                  </p>
+                                  <div class="collapse" id="collapseExample">
+                                    <div class="card card-body" id="card">
+                                       
+                                    </div>
+                                  </div>
+                                    
                                 </div>
                                 <div class="form-floating">
                                     <select class="form-select" id="floatingSelect" aria-label="Floating label select example" onclick=planDetails()>
@@ -198,9 +202,6 @@ const actualizarCotizador = () => {
 }
 
 
-
-
-
 //////////////////////Función para pasar al cotizador los datos segun el plan elegido///////////////////
 
 let precioLoteIngresado, interesPlanElegido, cuotasPlanIngresado
@@ -218,23 +219,26 @@ const planDetails = () => {
     inputCuotas.value = mesesPlan.cuotas
     console.log(inputCuotas.value)
     
-    //busco el indice del interes del plan elegido y muestro en consola
+    //busco el indice del interes del plan elegido 
     let interesPlan = document.getElementById("formGroupExampleInput4");
     let interesPlanElegido = planIngresado.find(Plan => Plan.interes)
     interesPlan.value = interesPlanElegido.interes
      
-    
 }
 
 //////////////////////Función que calcula el valor de las cuotas respecto al lote y plan elegido///////////////////
-//verifico el producto elegido
 
 let tbContainer2 = document.getElementById("tbContainer2");
-let IVA = 1.21
+let modalFooter = document.getElementById("modal-footer")
 
-function simularCuotas(){
+let cantidadCuotas, tasaInteresMensual, cuotaMensualidad, interesesCuotas, capitalA,  capitalV,
+primerInteres, primerCapitalA, primerCapitalV
 
-    //busco el indice del precio $contado del lote elegido e imprimo en consola
+var dataReset = function () {
+    primerInteres = 0; primerCapitalA = 0,  primerCapitalV = 0; 
+
+
+    //busco el indice del precio $contado del lote elegido 
     precioLoteIngresado = document.getElementById("formGroupExampleInput2").value
     console.log(precioLoteIngresado )
 
@@ -243,120 +247,142 @@ function simularCuotas(){
     let planIngresado = planes.filter(Plan => Plan.nombrePlan  === planElegido);
     console.log(planIngresado)
 
-    //busco el indice del interes del plan elegido y muestro en consola
+    //busco el indice del interes del plan elegido 
     interesPlanElegido = planIngresado.find(Plan => Plan.interes)
     console.log(interesPlanElegido.interes)
 
     //encontrar la cantidad de cuotas del plan ingresado
     cuotasPlanIngresado =  planIngresado.find(Plan => Plan.cuotas)
-    console.log(cuotasPlanIngresado.cuotas)
+    cantidadCuotas = cuotasPlanIngresado.cuotas
+    console.log(cantidadCuotas)
 
-    //calculo el interés
-    console.log(planIngresado)
-    let importe = precioLoteIngresado
-    let tasaInteresMensual = (interesPlanElegido.interes/100) /12
+}
+
+//calculo la tasa de interés mensual
+function calcularTasaInteres () {
+    tasaInteresMensual = (interesPlanElegido.interes/100) /12
     console.log(tasaInteresMensual) 
+    return tasaInteresMensual
+} 
 
-    ////////////////////////////////////////////////////////////////////////
+//calculo el valor de las cuotas
+function PagoMensual () {
+    let denominador = Math.pow((1 + calcularTasaInteres()), cantidadCuotas) - 1
+    cuotaMensualidad = (calcularTasaInteres() + (calcularTasaInteres() / denominador)) * precioLoteIngresado
+    console.log(cuotaMensualidad)
+    return cuotaMensualidad
+}
 
+function calcularTotalPrestamo () {
+    let totalPrestamo = 0
+    for ( let i = 0; i < cantidadCuotas; i++ ) {
+        totalPrestamo += cuotaMensualidad
+    }
+    return totalPrestamo
+}
+
+//calculo el monto de interes mensual por cuota
+  function intereses () {
+    if ( primerInteres === 0 ) {
+      interesesCuotas = tasaInteresMensual * precioLoteIngresado
+      primerInteres = interesesCuotas
+    } else {
+      interesesCuotas = tasaInteresMensual * capitalV
+    }
+    return interesesCuotas
+  }
+  
+//capital Amortizado
+  function capitalAmortizado () {
+    if ( primerCapitalA === 0 ) {
+      capitalA = cuotaMensualidad - primerInteres
+      primerCapitalA = capitalA
+    } else {
+      capitalA = cuotaMensualidad - intereses() 
+    }
+    return capitalA
+  }
+  
+//capital vivo
+  function capitalVivo () {
+    if ( primerCapitalV === 0 ) {
+        capitalV = precioLoteIngresado - primerCapitalA
+        primerCapitalV = capitalV
+    } else {
+        capitalV -= capitalAmortizado()
+    }
+    return capitalV
+  }
+
+  ///////////////////////SIMULADOR DE CUOTAS/////////////////////////////////////////////////////////
+  let body = document.getElementById("body")
+  let mdlCotiz = document.getElementById("mdlCotiz");
+  let modalContent = document.getElementById("modal-content")
+
+
+function simularCuotas(){
+
+    dataReset ()
+    PagoMensual()
+    calcularTotalPrestamo()
+//  --------------------------------------cuotas amortización----------------------------------------
+    let columnas = [ 'N° cuota',  'Valor cuota', 'Intereses', 'Capital amortizado', 'Capital Vivo' ]
     
-
-    //calculo el monto a financiar
-    let cuota = Math.round( importe / (( (1 - ( 1 + tasaInteresMensual) ** - cuotasPlanIngresado.cuotas)) / tasaInteresMensual))
-    console.log(cuota)
+    tbContainer2.textContent = "";
+    tbContainer2.innerHTML =
+            `<tr>
+            <td class=""></td>
+            <td class=""></td>
+            <td class=""></td>
+            <td class=""></td>
+            <td class="">$${precioLoteIngresado}</td>
+            </tr>
+            `
    
-    tbContainer2.innerHTML= " ";
-    tbContainer2.innerHTML +=
-    `<tr>
-        <td class="table-light" scope="row">${cuotasPlanIngresado.cuotas}</td>
-        <td class="table-light">$${cuota}</td>
-        <td class="table-light">${interesPlanElegido.interes}%</td>
-        <td class="table-light"></td>
-        <td class="table-light"></td>
-        <td class="table-light">$${importe}</td>
-    </tr>
-    `
-
-
-    ////////////////////guardar plan////////////////////
-
-    let guardarPlan = document.getElementById("guardarPlan")
-    let formGroupExampleInput = document.getElementById("formGroupExampleInput")
-    let formGroupExampleInput0 = document.getElementById("formGroupExampleInput0")
-
-
-    guardarPlan.addEventListener("click", () =>{
+    for ( let i = 0; i < cantidadCuotas; i++ ) {
+        let interesesCuotas = intereses(),  capitalA = capitalAmortizado(), capitalV = capitalVivo();
+        let fila = document.createElement('tr');
         
-        let cotizados = document.getElementById("cotizados");
-        
-        cotizados.innerHTML =`
-        <table class="table table-hover table-bordered table-warning">
-              <thead class="table-dark rounded ">
-                  <tr>
-                      <th scope="col" class="table-light" scope="row">N° cuota</td>
-                      <th scope="col" class="table-light">Valor cuota</td>
-                      <th scope="col" class="table-light">Intereses</td>
-                      <th scope="col" class="table-light">Impuesto</td>
-                      <th scope="col" class="table-light">Capital</td>
-                      <th scope="col" class="table-light">Saldo Insoluto</td>
-                  </tr>
-              </thead>
-              <p>Lote ${formGroupExampleInput.value} Manzana ${formGroupExampleInput0.value} </p>
-              <tbody >
-                <tr>
-                    <td class="table-light" scope="row">${cuotasPlanIngresado.cuotas}</td>
-                    <td class="table-light">$${cuota}</td>
-                    <td class="table-light">${interesPlanElegido.interes}%</td>
-                    <td class="table-light"></td>
-                    <td class="table-light"></td>
-                    <td class="table-light">$${importe}</td>
-                </tr>
-              </tbody>
-          </table>
+        for ( let k = 0; k < columnas.length; k++ ) {
+            
+
+            let celda = document.createElement('td')
+            let texto
+            
+            switch ( columnas[k] ) {
+                case 'N° cuota':
+                texto = (i + 1)
+                break;
+                case 'Valor cuota':
+                texto = `$${cuotaMensualidad.toFixed(2)}`
+                break
+                case 'Intereses':
+                texto = `$${interesesCuotas.toFixed(2)}`
+                break
+                case 'Capital amortizado' :
+                texto = `$${capitalA.toFixed(2)}`
+                break
+                case 'Capital Vivo':
+                texto = `$${Math.abs(capitalV.toFixed(2))}`
+                break
+                default:
+                break
+            }
+            var textoCelda = document.createTextNode(texto)
+            celda.appendChild(textoCelda)
+            fila.appendChild(celda)
+            tbContainer2.appendChild(fila)
+            
+        }
       
-        `;
-        
-    });
+    }
+
 }
 
 
-
-////////////////////////////cuotas amortización ///////////////////////////////////////////////////////////////
-let modalActive = document.getElementById("#modal-active");
-let staticBackdrop = document.getElementById("staticBackdrop");
-let containerModal = document.getElementById("modal-container");
-let container2 = document.getElementById("container");
-
-var columnas = [ 'No.',  'Mensualidad', 'Intereses', 'Impuestos', 'Capital', 'Insoluto' ]
-
-
-
-
-
-
-////////////cambiar theme mode con Jquery//////////
-let table = document.getElementsByClassName("table-light");
-
-
-$(document).ready(function(){
-    
-    $('#flexSwitchCheckDefault').click(function(){
-         
-            let element = document.body;         
-            
-                element.classList.toggle("dark"); 
-                console.log("prueba")
-                container.classList.toggle("table-dark"); 
-                table.classList.toggle("table-dark");
-            
-        
-    })
-  
-}); 
-
 ///////////////////Consumiendo API////////////////
 
-$.get("https://v6.exchangerate-api.com/v6/b3999cd76f3eda5856244288/latest/USD", (response) => {
+$.get("https://v6.exchangerate-api.com/v6/d2afb7a3730cf9978034581e/latest/USD", (response) => {
     data = response
     console.log(data)
 
@@ -366,10 +392,11 @@ $.get("https://v6.exchangerate-api.com/v6/b3999cd76f3eda5856244288/latest/USD", 
    
 })
 
+let card = document.getElementById("card")
 
 const dolarizar = (()=> {
     
-    fetch("https://v6.exchangerate-api.com/v6/b3999cd76f3eda5856244288/latest/USD")
+    fetch("https://v6.exchangerate-api.com/v6/d2afb7a3730cf9978034581e/latest/USD")
         .then( (response) => 
             response.json())
         .then((data) => {
@@ -377,16 +404,151 @@ const dolarizar = (()=> {
             let cambio = data.conversion_rates.ARS
             let conversion = parseInt(precioArs/cambio)
 
-            $("#modal-body3").html(" ")
-            $("#modal-body3").append(
-                `<p>Precio del lote en dólares $${conversion}</p>
+            $(".card").html(" ")
+            $(".card").append(
+                `<p>Precio del lote en dólares $${conversion.toFixed(2)}</p>
                 <p>Valido hasta ${data.time_last_update_utc}</p>`
             )
         })
         .catch ((err) => console.log(err))
         
 }) 
+
+
+
+////////////////////GUARDAR RESUMEN PLAN////////////////////
+
+    let guardarPlan = document.getElementById("guardarPlan")
+    let formGroupExampleInput = document.getElementById("formGroupExampleInput")
+    let formGroupExampleInput0 = document.getElementById("formGroupExampleInput0")
+
+
+//Guarda en LocalStorge como JSON los datos del plan
+var baseDeDatos = [];
+var guardadoLocal
+
+function guardado() {
+    // $('#exampleModal').modal('hide');
+    // $('#exampleModalToggle').modal('show');
+    let prestamoConInteres = cuotaMensualidad * cantidadCuotas;
+    let interesesAcumulados = prestamoConInteres - precioLoteIngresado;
+    $(document).ready(function () {
+       
+        class AgregarData {
+            constructor(idLoteCotizado, loteCotizado, manzanaCotizada, cantCuotas, valorCuota, totalInteres, totalPrestamoInicial, totalPrestamoIntereses) {
+                this.idLoteCotizado = idLoteCotizado;
+                this.loteCotizado = loteCotizado;
+                this.manzanaCotizada = manzanaCotizada;
+                this.cantCuotas = cantCuotas;
+                this.valorCuota = valorCuota;
+                this.totalInteres = totalInteres;
+                this.totalPrestamoInicial = totalPrestamoInicial;
+                this.totalPrestamoIntereses = totalPrestamoIntereses;
+            }
+        }
+        //verifica si existe la base de datos y decide si la crea o la actualiza
+        if (localStorage.getItem("cotización") === null) {
+            
+            // Agrega datos actuales al array baseDeDatos
+            baseDeDatos.push(new AgregarData($("#formGroupExampleInputId").val(),$("#formGroupExampleInput").val(), $("#formGroupExampleInput0").val(),`${cantidadCuotas}`,`${cuotaMensualidad.toFixed(2)}`, `${interesesAcumulados.toFixed(2)}`, `${precioLoteIngresado}`, `${prestamoConInteres.toFixed(2)}`))
+            // Guarda datos actuales en LocalStorage
+            localStorage.setItem(`cotización`, JSON.stringify(baseDeDatos)); 
+        } else {
+            //Carga la base de datos
+            guardadoLocal = JSON.parse(localStorage.getItem("cotización")); 
+            //Agrega datos actuales en LocalStorage
+            guardadoLocal.push(new AgregarData($("#formGroupExampleInputId").val(),$("#formGroupExampleInput").val(), $("#formGroupExampleInput0").val(),`${cantidadCuotas}`,`${cuotaMensualidad.toFixed(2)}`, `${interesesAcumulados.toFixed(2)}`, `${precioLoteIngresado}`, `${prestamoConInteres.toFixed(2)}`))
+            //Guarda datos actualizados en LocalStorage
+            localStorage.setItem(`cotización`, JSON.stringify(guardadoLocal)); 
+        }
+        
+    });
     
+}    
+
+
+//Guardar lote y plan cotizados en carrito "Mis Cotizaciones"
+
+function carrito() {  
+    var guardadoLocal = JSON.parse(localStorage.getItem("cotización"));
+    let cotizados = document.getElementById("cotizados");
+        
+        cotizados.innerHTML = ""
+    //Recorre el array
+    guardadoLocal.forEach(element => {
+        
+        cotizados.innerHTML +=` 
+        <table class="table table-hover table-bordered table-warning">
+            <thead class="table-dark rounded">
+                <tr>
+                    <th scope="col" class="" scope="row">N° cuotas</td>
+                    <th scope="col" class="">Valor cuota</td>
+                    <th scope="col" class="">Total Interes</td>
+                    <th scope="col" class="">Total Préstamo inicial</td>
+                    <th scope="col" class="">Total con intereses</td>
+                </tr>
+            </thead>
+            <p id="idLoteCotizado">Id N°:${element.idLoteCotizado} </p>
+            <p> Lote ${element.loteCotizado} Manzana ${element.manzanaCotizada} </p>
+            <tbody id="tbCotizados" class="table-light">
+                <tr>
+                    <td class="" scope="row">${element.cantCuotas}</td>
+                    <td class="">$${element.valorCuota}</td>
+                    <td class="">$${element.totalInteres}</td>
+                    <td class="">$${element.totalPrestamoInicial}</td>
+                    <td class="">$${element.totalPrestamoIntereses}</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        `;
+    })
+    
+    $('#contadorN').html(guardadoLocal.length)
+    
+    console.log(guardadoLocal.length)
+    
+}
+
+if (localStorage.getItem('cotización')) {
+    carrito();
+}
+
+// Borra el lote cotizado
+
+var i = -1;
+function borrarCotizacion(i) {
+    var guardadoLocal = JSON.parse(localStorage.getItem("cotización"));
+    i++
+    baseDeDatos.indexOf( guardadoLocal);
+    guardadoLocal.splice(i, 1);
+    localStorage.setItem(`cotización`, JSON.stringify(guardadoLocal));
+    $('#contadorN').html(guardadoLocal.length)
+
+    if (guardadoLocal.length === 0) {
+        localStorage.clear();
+        $("#menu").fadeOut(800);
+    } else {
+        carrito();
+    }
+}
+
+
+////////////cambiar theme mode con Jquery//////////
+
+$(document).ready(function theme(){
+    
+    $('#flexSwitchCheckDefault').click(function(){
+         
+        let element = document.body;         
+        
+        element.classList.toggle("dark"); 
+        container.classList.toggle("table-dark"); 
+        tbContainer2.classList.toggle("table-dark");
+        mdlCotiz.classList.replace("modal-body", "dark")
+   
+    });           
+}); 
 
 
 ////////////Animación bienvenida//////////////////
@@ -397,7 +559,6 @@ $(document).ready(()=>{
     $("#bienvenidos")
         .slideUp(2000)
         .delay(2000);
-        
         $("<section>")
         .slideDown(2000)
         .delay(2000);
@@ -411,14 +572,14 @@ $("#nav-link").click( () => {
     $("#menu").fadeIn(800);
     $("#menu").css({
         "height": "100%",
-        "width": "300px",
+        "width": "400px",
         "position": "fixed",
         "z-index": "1",
         "top": "0",
         "right": "0",
-        "background-color": "grey",
+        "background-color": "seagreen",
         "overflow-x": "hidden",
-        "padding-top": "60px"
+        "padding": "10px"
     })
 })
 
